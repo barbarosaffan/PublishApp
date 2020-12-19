@@ -5,6 +5,7 @@ import {Picker} from '@react-native-picker/picker';
 const styles = StyleSheet.create({
   screen: {
     padding: 50,
+    backgroundColor: '#91C7FF'
   },
   inputContainer: {
     flexDirection: 'row',
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
   itemList: {
     padding: 10,
     marginVertical: 10,
-    backgroundColor: '#ccc',
+    backgroundColor: '#C3E0FF',
     borderColor: 'black',
     borderWidth: 1,
   },
@@ -64,15 +65,16 @@ const App = () => {
         <Button title="GÖNDER" onPress={addBlogHandler} />
       </View>
       <View style={styles.pickerContainer}>
+        <Text>Kategori: </Text>
         <Picker 
           selectedValue={selectedValue}
           style={styles.pickerStyle}
-          onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+          onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}   
         >
-          <Picker.Item label="Bilim" value="bilim"/>
-          <Picker.Item label="Sanat" value="sanat"/>
-          <Picker.Item label="Kültür" value="kütlür"/>
-          <Picker.Item label="Spor" value="spor"/>
+          <Picker.Item label="Bilim" value="Bilim"/>
+          <Picker.Item label="Sanat" value="Sanat"/>
+          <Picker.Item label="Kültür" value="Kültür"/>
+          <Picker.Item label="Spor" value="Spor"/>
         </Picker>
       </View>
       <FlatList 
@@ -80,6 +82,7 @@ const App = () => {
         data={publishments} 
         renderItem={itemData=> (
           <View style={styles.itemList}>
+            <Text>{selectedValue.toString()}</Text>
             <Text>{itemData.item.value}</Text>
           </View>  
         )}
