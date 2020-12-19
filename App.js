@@ -1,11 +1,12 @@
-import React, { useState, Component } from 'react';
-import { StyleSheet, Text, View, TextInput, Button, ScrollView, FlatList } from 'react-native';
-import {Picker} from '@react-native-picker/picker';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, TextInput, Button, FlatList } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 
 const styles = StyleSheet.create({
   screen: {
     padding: 50,
-    backgroundColor: '#91C7FF'
+    backgroundColor: '#91C7FF',
+    flex: 3,
   },
   inputContainer: {
     flexDirection: 'row',
