@@ -17,6 +17,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
   },
+  pickerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  pickerStyle: {
+    width: '40%',
+    height: 40,
+  },
   itemList: {
     padding: 10,
     marginVertical: 10,
@@ -27,19 +36,22 @@ const styles = StyleSheet.create({
 });
 
 const App = () => {
+  // Input ve girilen veriyi kaydetmek için.
   const [enteredBlog, setEnteredBlog] = useState('');
   const [publishments, setPublishments] = useState([]);
 
   const BlogInputHandler = (enteredText) => {
     setEnteredBlog(enteredText);
   };
+  // FlatList için.
   const addBlogHandler = () => {
     setPublishments(currentBlogs => [
       ...currentBlogs, 
-      { key: Math.random().toString(), value: enteredBlog }
+      { id: Math.random().toString(), value: enteredBlog }
     ]);
   };
-
+  // Picker için.
+  const [selectedValue, setSelectedValue] = useState("Kategori");
   return (
     <View style={styles.screen}>
       <View style={styles.inputContainer}>
@@ -51,7 +63,20 @@ const App = () => {
         />
         <Button title="GÖNDER" onPress={addBlogHandler} />
       </View>
+      <View style={styles.pickerContainer}>
+        <Picker 
+          selectedValue={selectedValue}
+          style={styles.pickerStyle}
+          onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+        >
+          <Picker.Item label="Bilim" value="bilim"/>
+          <Picker.Item label="Sanat" value="sanat"/>
+          <Picker.Item label="Kültür" value="kütlür"/>
+          <Picker.Item label="Spor" value="spor"/>
+        </Picker>
+      </View>
       <FlatList 
+        keyExtractor={(item, index) => item.id}
         data={publishments} 
         renderItem={itemData=> (
           <View style={styles.itemList}>
