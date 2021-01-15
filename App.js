@@ -13,7 +13,7 @@ import { Picker } from "@react-native-picker/picker";
 
 const App = () => {
   // Input ve girilen veriyi kaydetmek için.
-  const [enteredBlog, setEnteredBlog] = useState("");
+  const [enteredPost, setEnteredPost] = useState("");
   const [posts, setPosts] = useState([]);
   const [publishments, setPublishments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,23 +34,46 @@ const App = () => {
     });
   };
 
-  const BlogInputHandler = (enteredText) => {
-    setEnteredBlog(enteredText);
+  const PostInputHandler = (enteredText) => {
+    setEnteredPost(enteredText);
   };
   // FlatList için.
-  const addBlogHandler = () => {
+  const addPostHandler = () => {
     setPublishments((currentBlogs) => [
       ...currentBlogs,
       { id: Math.random().toString(), value: enteredBlog },
     ]);
+    fetch('https://ieee-mobil-test.herokuapp.com/api/post', {
+      method: "POST",
+      headers: {
+        Accept: 'application/json',
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({
+        id : '2',
+        name : '${}',
+        content : '${enteredPost}',
+        category_name: '${selectedCategory}',
+      })
+    }
+    );
   };
   // Picker için.
-  const [selectedValue, setSelectedValue] = useState("Kategori");
+  const [selectedCategory, setSelectedCategory] = useState("Kategori");
 
   const renderPosts = ({ item }) => (
     <View style={styles.postList}>
+      <View style={styles.postContent}>
       <Text>{item.category_name}</Text>
       <Text>{item.content}</Text>
+      </View>
+      <View style={styles.postDeleteButtonContainer}>
+        <Button
+          onPress = {deletePosts}
+          title="Sil"
+          color="#d10000"
+        />
+      </View>
     </View>
   );
 
@@ -69,17 +92,17 @@ const App = () => {
           <TextInput
             placeholder="Buraya yazınız"
             style={styles.input}
-            onChangeText={BlogInputHandler}
-            value={enteredBlog}
+            onChangeText={PostInputHandler}
+            value={enteredPost}
           />
-          <Button title="GÖNDER" onPress={addBlogHandler} />
+          <Button title="GÖNDER" onPress={addPostHandler} />
         </View>
         <View style={styles.pickerContainer}>
           <Text>Kategori: </Text>
           <Picker
-            selectedValue={selectedValue}
+            selectedValue={selectedCategory}
             style={styles.pickerStyle}
-            onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+            onValueChange={(itemValue, itemIndex) => setSelectedCategory(itemValue)}
           >
             <Picker.Item label="Bilim" value="Bilim" />
             <Picker.Item label="Sanat" value="Sanat" />
@@ -131,6 +154,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#C3E0FF",
     borderColor: "black",
     borderWidth: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  postDeleteButtonContainer: {
+    width: 50,
+    borderColor: "black",
+    borderWidth: 0.5,
   },
   loadingScreen: {
     flex: 1,
