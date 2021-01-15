@@ -59,38 +59,41 @@ const App = () => {
   }, []);
   return (
     <View style={styles.screen}>
+      { loading ? 
       <View style={styles.loadingScreen}>
         <ActivityIndicator size="large" color="red" />
       </View>
-
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Buraya yazınız"
-          style={styles.input}
-          onChangeText={BlogInputHandler}
-          value={enteredBlog}
+      :
+      <View style={styles.mainView}>
+        <View style={styles.inputContainer}>
+          <TextInput
+            placeholder="Buraya yazınız"
+            style={styles.input}
+            onChangeText={BlogInputHandler}
+            value={enteredBlog}
+          />
+          <Button title="GÖNDER" onPress={addBlogHandler} />
+        </View>
+        <View style={styles.pickerContainer}>
+          <Text>Kategori: </Text>
+          <Picker
+            selectedValue={selectedValue}
+            style={styles.pickerStyle}
+            onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+          >
+            <Picker.Item label="Bilim" value="Bilim" />
+            <Picker.Item label="Sanat" value="Sanat" />
+            <Picker.Item label="Kültür" value="Kültür" />
+            <Picker.Item label="Spor" value="Spor" />
+          </Picker>
+        </View>
+        <FlatList
+          data={posts}
+          renderItem={renderPosts}
+          keyExtractor={(item) => item.id.toString()}
         />
-        <Button title="GÖNDER" onPress={addBlogHandler} />
       </View>
-      <View style={styles.pickerContainer}>
-        <Text>Kategori: </Text>
-        <Picker
-          selectedValue={selectedValue}
-          style={styles.pickerStyle}
-          onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-        >
-          <Picker.Item label="Bilim" value="Bilim" />
-          <Picker.Item label="Sanat" value="Sanat" />
-          <Picker.Item label="Kültür" value="Kültür" />
-          <Picker.Item label="Spor" value="Spor" />
-        </Picker>
-      </View>
-      <FlatList
-        data={posts}
-        renderItem={renderPosts}
-        keyExtractor={(item) => item.id.toString()}
-      />
-
+      }
       <StatusBar style="auto" />
     </View>
   );
