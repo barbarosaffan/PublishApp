@@ -7,6 +7,7 @@ import {
   TextInput,
   Button,
   FlatList,
+  StatusBar,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
@@ -58,10 +59,10 @@ const App = () => {
   }, []);
   return (
     <View style={styles.screen}>
-      { loading ? 
+      <View style={styles.loadingScreen}>
+        <ActivityIndicator size="large" color="red" />
+      </View>
 
-
-      :
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Buraya yazınız"
@@ -89,8 +90,8 @@ const App = () => {
         renderItem={renderPosts}
         keyExtractor={(item) => item.id.toString()}
       />
-    }
-    <StatusBar style="auto"/>
+
+      <StatusBar style="auto" />
     </View>
   );
 };
@@ -127,6 +128,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#C3E0FF",
     borderColor: "black",
     borderWidth: 1,
+  },
+  loadingScreen: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
